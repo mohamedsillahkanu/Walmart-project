@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f5ff;
+        }
+        .poster {
+            width: 210mm; /* A4 width */
+            height: 297mm; /* A4 height */
+            margin: 0 auto;
+            background: white;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: auto auto auto auto;
+            grid-gap: 10px;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+        .header {
+            grid-column: 1 / span 2;
+            background: #003087; /* Walmart blue */
+            color: white;
+            padding: 15px;
+            text-align: center;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .abstract {
+            grid-column: 1 / span 2;
+            background: #f8f8f8;
+            padding: 10px;
+            border-radius: 5px;
+            border-left: 5px solid #FFC220; /* Walmart yellow */
+            font-size: 9px;
+            line-height: 1.3;
+        }
+        .methods, .results, .model-selection, .conclusion {
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            border: 1px solid #eee;
+            font-size: 9px;
+            line-height: 1.3;
+        }
+        .methods {
+            grid-column: 1;
+            grid-row: 3;
+        }
+        .results {
+            grid-column: 2;
+            grid-row: 3;
+        }
+        .model-selection {
+            grid-column: 1;
+            grid-row: 4;
+        }
+        .conclusion {
+            grid-column: 2;
+            grid-row: 4;
+            background: #f8f8f8;
+            border-left: 5px solid #003087;
+        }
+        h1 {
+            margin: 0;
+            font-size: 18px;
+            line-height: 1.2;
+        }
+        h2 {
+            color: #003087;
+            border-bottom: 2px solid #FFC220;
+            padding-bottom: 5px;
+            font-size: 12px;
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+        h3 {
+            font-size: 10px;
+            color: #003087;
+            margin-top: 8px;
+            margin-bottom: 5px;
+        }
+
+        .metric {
+            display: inline-block;
+            background: #eef5ff;
+            padding: 3px 5px;
+            margin: 3px;
+            border-radius: 3px;
+            font-weight: bold;
+            font-size: 8px;
+        }
+        .model-card {
+            background: #f8f8f8;
+            padding: 8px;
+            margin: 8px 0;
+            border-radius: 5px;
+            border-left: 3px solid #003087;
+        }
+        .best-model {
+            background: #e8f4ea;
+            border-left: 3px solid #4CAF50;
+        }
+        .authors {
+            font-size: 12px;
+            margin-top: 5px;
+            font-weight: bold;
+        }
+        .affiliation {
+            font-style: italic;
+            margin-top: 3px;
+            font-size: 10px;
+        }
+        ul, ol {
+            padding-left: 15px;
+            margin: 5px 0;
+        }
+        li {
+            margin-bottom: 3px;
+        }
+        p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="poster">
+        <div class="header">
+            <h1>TIME SERIES ANALYSIS ON WALMART WEEKLY SALES DATA</h1>
+            <p class="authors">Mohamed Sillah Kanu</p>
+            <p class="affiliation">MS Research Project, The George Washington University, USA</p>
+        </div>
+
+        <div class="abstract">
+            <h2>Abstract</h2>
+            <p>This project focuses on time series forecasting of weekly sales data for 45 Walmart stores in the US, using the "Walmart_Cleaned_Data" dataset. The dataset satisfies criteria for time series analysis, being multivariate with 15 continuous numerical features. It contains 421,570 samples, is non-classified, and exhibits both seasonal patterns and overall trends. The data undergoes a thorough cleaning process, with no missing values detected. After splitting into 80% training and 20% testing sets, stationarity tests confirm the stationary nature of the dependent variable (Weekly_Sales). Time series decomposition reveals clear seasonality in the data. The SARIMA model with parameters (2, 0, 6) emerges as the optimal choice, achieving the lowest out-of-sample root mean squared error (RMSE) among various baseline and time series forecasting models.</p>
+        </div>
+
+        <div class="methods">
+            <h2>Data & Methods</h2>
+            <p><strong>Dataset:</strong> Weekly sales data from 45 Walmart stores with multiple features including Store, Dept, Temperature, Fuel_Price, Markdowns, CPI, Unemployment, Type, and Size.</p>
+            
+
+            
+            <p><strong>Pre-processing:</strong></p>
+            <ul>
+                <li>Data cleaning with verification of no missing values</li>
+                <li>80/20 train-test split (337,256 training samples)</li>
+                <li>Stationarity testing using ADF test (p-value: 2.68e-07) and KPSS test</li>
+                <li>Feature selection & dimensionality reduction identified features with high VIF</li>
+            </ul>
+            
+
+            
+
+        </div>
+
+        <div class="results">
+            <h2>Results</h2>
+            
+
+            
+            <p><strong>Model Performance Comparison (RMSE):</strong></p>
+            
+            <div>
+                <span class="metric">Average: 18610.89</span>
+                <span class="metric">Naive: 25596.81</span>
+                <span class="metric">Drift: 18664.09</span>
+            </div>
+            <div>
+                <span class="metric">SES: 20467.38</span>
+                <span class="metric">SARIMA(2,0,6): 18779.21</span>
+                <span class="metric">OLS: 22208.08</span>
+            </div>
+            
+
+        </div>
+
+        <div class="model-selection">
+            <h2>Model Comparison</h2>
+            
+            <div class="model-card">
+                <h3>OLS Regression</h3>
+                <p>RMSE: 22208.08</p>
+                <p>R²: 0.031</p>
+                <p>Poor time series fit with high residual variance</p>
+            </div>
+            
+            <div class="model-card">
+                <h3>SARIMA(3,0,8)</h3>
+                <p>Log Likelihood: -4806941.09</p>
+                <p>AIC: 9613906.18</p>
+                <p>BIC: 9614037.61</p>
+                <p>Good fit but more complex than necessary</p>
+            </div>
+            
+            <div class="model-card best-model">
+                <h3>SARIMA(2,0,6) - Best Model</h3>
+                <p>Log Likelihood: -4807105.73</p>
+                <p>AIC: 9614229.47</p>
+                <p>BIC: 9614328.03</p>
+                <p>Lowest out-of-sample RMSE: 18779.21</p>
+                <p>Best balance of complexity and accuracy</p>
+            </div>
+            
+
+            
+            <p><strong>Model Evaluation Process:</strong></p>
+            <ul>
+                <li>Preliminary order determination via GPAC analysis</li>
+                <li>Parameter estimation using Levenberg-Marquardt algorithm</li>
+                <li>Out-of-sample testing on 20% holdout data (84,314 samples)</li>
+                <li>Comparison across multiple performance metrics</li>
+                <li>Residual analysis for model diagnostics</li>
+            </ul>
+        </div>
+
+        <div class="conclusion">
+            <h2>Conclusion</h2>
+            <p>This study successfully developed a time series forecasting model for Walmart's weekly sales data. The SARIMA(2,0,6) model emerged as the most effective approach, capturing the strong seasonal patterns that dominate the sales variations.</p>
+            
+
+            
+            <p><strong>Key Findings:</strong></p>
+            <ul>
+                <li>Seasonality accounts for 98.94% of the sales variation</li>
+                <li>Week 4 consistently has the highest sales across most stores</li>
+                <li>Holiday periods show significant sales increases</li>
+                <li>Traditional regression models fail to capture temporal dependencies</li>
+                <li>SARIMA models outperform simpler forecasting approaches</li>
+            </ul>
+            
+            <p><strong>Business Impact:</strong> The SARIMA(2,0,6) model provides Walmart with a reliable forecasting tool for inventory planning and resource allocation, potentially improving operational efficiency and reducing costs.</p>
+            
+            <p><strong>Future Work:</strong></p>
+            <ul>
+                <li>Explore deep learning approaches (LSTM, Neural Networks)</li>
+                <li>Incorporate external factors (promotions, competitor pricing)</li>
+                <li>Develop store-specific models for localized forecasting</li>
+                <li>Implement real-time forecasting updates with new data</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f5ff;
+        }
+        .plots-container {
+            width: 210mm; /* A4 width */
+            height: 297mm; /* A4 height */
+            margin: 0 auto;
+            background: white;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: auto repeat(3, 1fr);
+            grid-gap: 15px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .header {
+            grid-column: 1 / span 2;
+            background: #003087; /* Walmart blue */
+            color: white;
+            padding: 15px;
+            text-align: center;
+            border-radius: 5px;
+        }
+        .plot {
+            background: white;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .plot-image {
+            width: 100%;
+            height: 85%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .plot-image img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        .plot-caption {
+            font-size: 10px;
+            text-align: center;
+            margin-top: 8px;
+            font-weight: bold;
+            color: #003087;
+        }
+        h1 {
+            margin: 0;
+            font-size: 18px;
+        }
+        .subtitle {
+            margin-top: 5px;
+            font-size: 12px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="plots-container">
+        <div class="header">
+            <h1>TIME SERIES ANALYSIS ON WALMART WEEKLY SALES DATA</h1>
+            <p class="subtitle">Visualization Appendix</p>
+        </div>
+
+        <!-- Row 1 -->
+        <div class="plot">
+            <div class="plot-image">
+                <img src="https://github.com/mohamedsillahkanu/si/raw/90e98232ac47ec8d2e022a6302c6f067766b9227/plottt.png" alt="Distribution of Weekly Sales">
+            </div>
+            <div class="plot-caption">
+                Figure 1: Distribution of Weekly Sales and Other Features
+            </div>
+        </div>
+
+        <div class="plot">
+            <div class="plot-image">
+                <img src="https://github.com/mohamedsillahkanu/si/raw/4dad66f495598e1422420ac30584792e448a227d/pacf.png" alt="ACF/PACF Plots">
+            </div>
+            <div class="plot-caption">
+                Figure 2: ACF/PACF Plots Showing Correlation Patterns
+            </div>
+        </div>
+
+        <!-- Row 2 -->
+        <div class="plot">
+            <div class="plot-image">
+                <img src="https://github.com/mohamedsillahkanu/si/raw/a203f508b1ae972c0111764c9f48c21ddb97ee84/trend.png" alt="Time Series Decomposition">
+            </div>
+            <div class="plot-caption">
+                Figure 3: Time Series Decomposition - Trend, Seasonal, and Residual Components
+            </div>
+        </div>
+
+        <div class="plot">
+            <div class="plot-image">
+                <img src="https://github.com/mohamedsillahkanu/si/raw/db52cca4aa6a8d88e8a0d82c52011a779a509aa4/model%20summary.png" alt="Model Selection">
+            </div>
+            <div class="plot-caption">
+                Figure 4: Preliminary Model Order Selection Results
+            </div>
+        </div>
+
+        <!-- Row 3 -->
+        <div class="plot">
+            <div class="plot-image">
+                <img src="https://github.com/mohamedsillahkanu/si/raw/322f5b2ea80089490d79b7756d2fb0ed90788879/holt%20winters.png" alt="Holt-Winters">
+            </div>
+            <div class="plot-caption">
+                Figure 5: Holt-Winters Forecasting Visualization
+            </div>
+        </div>
+
+        <div class="plot">
+            <div class="plot-image">
+                <!-- Placeholder for any additional visualization -->
+                <div style="width: 100%; height: 100%; background: #f5f5f5; display: flex; align-items: center; justify-content: center; color: #666; font-size: 12px; text-align: center; border: 1px dashed #ccc;">
+                    Weekly Sales vs Week per Store showing seasonal patterns
+                </div>
+            </div>
+            <div class="plot-caption">
+                Figure 6: Weekly Sales Patterns by Store
+            </div>
+        </div>
+    </div>
+</body>
+</html>
